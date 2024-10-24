@@ -28,13 +28,19 @@ requirements:
     - importlib-metadata  # [py<38]
 
 test:
+  source_files:
+    - tests/
+    - src
+    - pyproject.toml
   imports:
     - rich_click
   requires:
     - pip
+    - pytest
   commands:
     - pip check
     - rich-click --help
+    - pytest -vv .
 
 about:
   home: https://github.com/ewels/rich-click
