@@ -1,0 +1,25 @@
+From 62a5f7a2976256dfebecd746e76de20d57eaace5 Mon Sep 17 00:00:00 2001
+From: Mohamed Sentissi <msentissi@anaconda.com>
+Date: Fri, 25 Oct 2024 15:23:28 -0400
+Subject: [PATCH] use utf-8
+
+---
+ tests/conftest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/conftest.py b/tests/conftest.py
+index 185cd93..4b30542 100644
+--- a/tests/conftest.py
++++ b/tests/conftest.py
+@@ -57,7 +57,7 @@ def assert_str(request: pytest.FixtureRequest) -> Callable[[str, Union[str, Path
+     def assertion(actual: str, expectation: Union[str, Path]) -> None:
+         if isinstance(expectation, Path):
+             if expectation.exists():
+-                expected = expectation.read_text()
++                expected = expectation.read_text(encoding='utf-8')
+             else:
+                 expected = ""
+         else:
+-- 
+2.45.2
+
