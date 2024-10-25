@@ -24,8 +24,8 @@ requirements:
     - wheel
   run:
     - python
-    - rich >=10
-    - click >=7,<9
+    - rich >=10.7
+    - click >=7
     - typing_extensions
     - importlib-metadata  # [py<38]
 
