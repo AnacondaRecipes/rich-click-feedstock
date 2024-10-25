@@ -16,7 +16,7 @@ index 185cd93..4b30542 100644
          if isinstance(expectation, Path):
              if expectation.exists():
 -                expected = expectation.read_text()
-+                expected = expectation.read_text(encoding='utf-8')
++                expected = expectation.read_text(encoding='utf-16')
              else:
                  expected = ""
          else:
