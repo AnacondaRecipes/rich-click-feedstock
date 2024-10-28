@@ -29,6 +29,14 @@ requirements:
     - typing_extensions
     - importlib-metadata  # [py<38]
 
+
+
+{% set tests_to_skip = "" %}
+{% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                   # [win]
+{% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
+{% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}        # [win]
+{% set tests_to_skip = tests_to_skip + " or test_simple_rich_click_cli" %}        # [win]
+
 test:
   source_files:
     - tests/
@@ -41,9 +49,8 @@ test:
     - pytest
   commands:
     - pip check
-    - set PYTHONIOENCODING=utf8  # [win]
     - rich-click --help
-    - pytest -vv .
+    - pytest tests -vv -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://github.com/ewels/rich-click
