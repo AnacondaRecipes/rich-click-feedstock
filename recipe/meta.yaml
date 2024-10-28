@@ -41,6 +41,7 @@ test:
     - pytest
   commands:
     - pip check
+    - set PYTHONIOENCODING=utf8  # [win]
     - rich-click --help
     - pytest -vv .
 
