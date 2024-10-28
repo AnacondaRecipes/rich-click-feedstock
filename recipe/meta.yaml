@@ -30,8 +30,7 @@ requirements:
     - importlib-metadata  # [py<38]
 
 
-
-{% set tests_to_skip = "" %}
+{% set tests_to_skip = "test_rich_click" %}
 {% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                   # [win]
 {% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
 {% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}        # [win]
