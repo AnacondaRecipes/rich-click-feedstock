@@ -30,21 +30,12 @@ requirements:
     - importlib-metadata  # [py<38]
 
 
-{% set tests_to_ignore = "" %}
-{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}
-
+# Skipping tests due to win not correctly printing required strings to the console
+{% set tests_to_ignore = "" %}                                               
+{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}      # [win]
 {% set tests_to_skip = "test_rich_click" %}
 {% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                   # [win]
 {% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[command1]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[command2]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[command3]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[group1]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[group2]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[group3]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[click_command1]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[command2]" %}    # [win]
-# {% set tests_to_skip = tests_to_skip + " or test_rich_config_decorator_order[command3]" %}    # [win]
 {% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
 {% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}        # [win]
 {% set tests_to_skip = tests_to_skip + " or test_simple_rich_click_cli" %}        # [win]
