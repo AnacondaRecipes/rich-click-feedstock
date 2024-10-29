@@ -43,7 +43,6 @@ requirements:
 test:
   source_files:
     - tests/
-    - src
     - pyproject.toml
   imports:
     - rich_click
@@ -53,7 +52,7 @@ test:
   commands:
     - pip check
     - rich-click --help
-    - pytest -v . {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
+    - pytest -v tests {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://github.com/ewels/rich-click
