@@ -1,5 +1,5 @@
 {% set name = "rich-click" %}
-{% set version = "1.6.1" %}
+{% set version = "1.8.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,32 +7,55 @@ package:
 
 source:
   url: https://github.com/ewels/rich-click/archive/v{{ version }}.tar.gz
-  sha256: 94cb58820b7728d00d0f6ea485a16e451c298e1cb496d37dcd707a4918ff0596
+  sha256: 1f5cd1c50bd534fdaf985e1b0b1fec88054244a6e849d8c3e05131d27d5222c9
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: true  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - rich-click=rich_click.cli:main
 
 requirements:
   host:
-    - python >=3.7
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=3.7
-    - rich >=10
-    - click >=7,<9
+    - python
+    - rich >=10.7
+    - click >=7
+    - typing_extensions
+    - importlib-metadata  # [py<38]
+
+{% set tests_to_skip = "" %}
+{% set tests_to_ignore = "" %}
+
+# Skipping tests due to win not correctly printing required strings to the console
+{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}        # [win]
+{% set tests_to_skip = tests_to_skip + " test_override_rich_click_group" %}         # [win]
+{% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}      # [win]
+{% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}          # [win]
+{% set tests_to_skip = tests_to_skip + " or test_simple_rich_click_cli" %}          # [win]
+{% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                     # [win]
 
 test:
+  source_files:
+    - tests/
+    - pyproject.toml
+    # required for test_rich_click
+    - src
   imports:
     - rich_click
   requires:
     - pip
+    - pytest
   commands:
     - pip check
     - rich-click --help
+    - pytest -v tests {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"  # [win]
+    - pytest -v tests                                                       # [not win]
 
 about:
   home: https://github.com/ewels/rich-click
