@@ -33,7 +33,7 @@ requirements:
 # Skipping tests due to win not correctly printing required strings to the console
 {% set tests_to_ignore = "" %}                                               
 {% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}      # [win]
-{% set tests_to_skip = "test_rich_click" %}
+{% set tests_to_skip = "" %}
 {% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                   # [win]
 {% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
 {% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
