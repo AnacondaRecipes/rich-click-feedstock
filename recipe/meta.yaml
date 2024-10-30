@@ -29,21 +29,23 @@ requirements:
     - typing_extensions
     - importlib-metadata  # [py<38]
 
+{% set tests_to_skip = "" %}
+{% set tests_to_ignore = "" %}
 
 # Skipping tests due to win not correctly printing required strings to the console
-{% set tests_to_ignore = "" %}                                               
-{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}      # [win]
-{% set tests_to_skip = "" %}
-{% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                   # [win]
-{% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
-{% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}    # [win]
-{% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}        # [win]
-{% set tests_to_skip = tests_to_skip + " or test_simple_rich_click_cli" %}        # [win]
+{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}        # [win]
+{% set tests_to_skip = tests_to_skip + " test_override_rich_click_group" %}         # [win]
+{% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}      # [win]
+{% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}          # [win]
+{% set tests_to_skip = tests_to_skip + " or test_simple_rich_click_cli" %}          # [win]
+{% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                     # [win]
 
 test:
   source_files:
     - tests/
     - pyproject.toml
+    # required for test_rich_click
+    - src
   imports:
     - rich_click
   requires:
@@ -52,7 +54,8 @@ test:
   commands:
     - pip check
     - rich-click --help
-    - pytest -v tests {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
+    - pytest -v tests {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"  # [win]
+    - pytest -v tests                                                       # [not win]
 
 about:
   home: https://github.com/ewels/rich-click
