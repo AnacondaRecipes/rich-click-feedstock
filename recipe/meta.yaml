@@ -45,7 +45,7 @@ test:
   commands:
     - pip check
     - rich-click --help
-    - pytest -v tests
+    - pytest -v tests -o "addopts="
 
 about:
   home: https://github.com/ewels/rich-click
