@@ -39,6 +39,9 @@ test:
   requires:
     - pip
     - pytest
+    - typer
+    - inline-snapshot
+    - packaging
   commands:
     - pip check
     - rich-click --help
@@ -59,3 +62,4 @@ about:
 extra:
   recipe-maintainers:
     - ewels
+    - synapticarbors
