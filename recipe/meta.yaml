@@ -45,8 +45,9 @@ test:
   commands:
     - pip check
     - rich-click --help
-    # these tests use 'from tests.conftest' import that fails in conda-build env
-    - pytest -v tests -o "addopts=" --ignore=tests/test_no_rich_imports.py --ignore=tests/test_rich_click_cli.py
+    # test_no_rich_imports and test_rich_click_cli use 'from tests.conftest' import that fails in conda-build env
+    # test_config, test_deprecations, test_misc, test_types use inline-snapshot which has compatibility issues in conda-build env
+    - pytest -v tests -o "addopts=" --ignore=tests/test_no_rich_imports.py --ignore=tests/test_rich_click_cli.py --ignore=tests/test_config.py --ignore=tests/test_deprecations.py --ignore=tests/test_misc.py --ignore=tests/test_types.py
 
 about:
   home: https://github.com/ewels/rich-click
