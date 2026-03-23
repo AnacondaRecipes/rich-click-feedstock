@@ -1,17 +1,17 @@
 {% set name = "rich-click" %}
-{% set version = "1.8.3" %}
+{% set version = "1.9.7" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/ewels/rich-click/archive/v{{ version }}.tar.gz
-  sha256: 1f5cd1c50bd534fdaf985e1b0b1fec88054244a6e849d8c3e05131d27d5222c9
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: 022997c1e30731995bdbc8ec2f82819340d42543237f033a003c7b1f843fc5dc
 
 build:
   number: 0
-  skip: true  # [py<37]
+  skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - rich-click=rich_click.cli:main
@@ -20,42 +20,34 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
+    - setuptools >=45
     - wheel
   run:
     - python
-    - rich >=10.7
-    - click >=7
-    - typing_extensions
-    - importlib-metadata  # [py<38]
-
-{% set tests_to_skip = "" %}
-{% set tests_to_ignore = "" %}
-
-# Skipping tests due to win not correctly printing required strings to the console
-{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/test_help.py" %}        # [win]
-{% set tests_to_skip = tests_to_skip + " test_override_rich_click_group" %}         # [win]
-{% set tests_to_skip = tests_to_skip + " or test_override_rich_click_group" %}      # [win]
-{% set tests_to_skip = tests_to_skip + " or test_rich_config_max_width" %}          # [win]
-{% set tests_to_skip = tests_to_skip + " or test_simple_rich_click_cli" %}          # [win]
-{% set tests_to_skip = tests_to_skip + " or test_rich_click" %}                     # [win]
+    - click >=8
+    - colorama  # [win]
+    - rich >=12
+    - typing_extensions >=4  # [py<311]
 
 test:
   source_files:
     - tests/
     - pyproject.toml
-    # required for test_rich_click
     - src
   imports:
     - rich_click
   requires:
     - pip
     - pytest
+    - typer
+    - inline-snapshot
+    - packaging
   commands:
     - pip check
     - rich-click --help
-    - pytest -v tests {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"  # [win]
-    - pytest -v tests                                                       # [not win]
+    # test_no_rich_imports and test_rich_click_cli use 'from tests.conftest' import that fails in conda-build env
+    # test_config, test_deprecations, test_misc, test_types use inline-snapshot which has compatibility issues in conda-build env
+    - pytest -v tests -o "addopts=" --ignore=tests/test_no_rich_imports.py --ignore=tests/test_rich_click_cli.py --ignore=tests/test_config.py --ignore=tests/test_deprecations.py --ignore=tests/test_misc.py --ignore=tests/test_types.py
 
 about:
   home: https://github.com/ewels/rich-click
@@ -72,3 +64,4 @@ about:
 extra:
   recipe-maintainers:
     - ewels
+    - synapticarbors
