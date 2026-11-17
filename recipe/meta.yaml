@@ -1,5 +1,5 @@
 {% set name = "rich-click" %}
-{% set version = "1.9.7" %}
+{% set version = "1.9.9" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 022997c1e30731995bdbc8ec2f82819340d42543237f033a003c7b1f843fc5dc
+  sha256: 324cba7513cd4187ee92b2eef21f071714e45be062458c8b157bd7e0c81103e3
 
 build:
   number: 0
@@ -21,7 +21,6 @@ requirements:
     - python
     - pip
     - setuptools >=45
-    - wheel
   run:
     - python
     - click >=8
