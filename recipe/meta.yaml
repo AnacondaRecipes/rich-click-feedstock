@@ -1,13 +1,13 @@
 {% set name = "rich-click" %}
-{% set version = "1.9.7" %}
+{% set version = "1.9.9" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 022997c1e30731995bdbc8ec2f82819340d42543237f033a003c7b1f843fc5dc
+  sha256: 324cba7513cd4187ee92b2eef21f071714e45be062458c8b157bd7e0c81103e3
 
 build:
   number: 0
@@ -45,9 +45,9 @@ test:
   commands:
     - pip check
     - rich-click --help
-    # test_no_rich_imports and test_rich_click_cli use 'from tests.conftest' import that fails in conda-build env
-    # test_config, test_deprecations, test_misc, test_types use inline-snapshot which has compatibility issues in conda-build env
-    - pytest -v tests -o "addopts=" --ignore=tests/test_no_rich_imports.py --ignore=tests/test_rich_click_cli.py --ignore=tests/test_config.py --ignore=tests/test_deprecations.py --ignore=tests/test_misc.py --ignore=tests/test_types.py
+    # tests/conftest.py and tests/__init__.py are not shipped in the sdist, so tests importing tests.conftest fail
+    # test_deprecations, test_misc, test_config and test_types use inline-snapshot which breaks in conda-build env
+    - pytest -vv tests -o "addopts=" --ignore=tests/test_no_rich_imports.py --ignore=tests/test_rich_click_cli.py --ignore=tests/test_patch.py --ignore=tests/test_config.py --ignore=tests/test_deprecations.py --ignore=tests/test_misc.py --ignore=tests/test_types.py
 
 about:
   home: https://github.com/ewels/rich-click
